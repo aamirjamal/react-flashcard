@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
     <title>Flashcard</title>
     <style>
@@ -91,11 +91,39 @@
     }
 
     class CardViewer extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            isFront : false,
+            card: this.props.cards[1]
+        }
+    }
+
+    showCardSide = () => {
+        if(this.state.isFront)
+        return this.state.card.front
+        else
+        return this.state.card.back
+    }
+
+    flipCard = () => {
+        this.setState(state => ({
+            isFront: !state.isFront
+            }))
+    }
+
+    // switchMode = () => {
+    //         this.setState(state => ({
+    //             editor: !state.editor
+    //         }))
+    //     }
+
         render() {
             return(
                 <div>
                     <h2>CardViewer</h2>
-                    
+                    <p>{this.showCardSide()}</p>
+                    <button onClick={this.flipCard}>Flip card</button>
                     <hr/>
                     <button onClick={this.props.switchMode}>Go to editor</button>
                 </div>
