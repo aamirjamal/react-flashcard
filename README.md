@@ -1,0 +1,1 @@
+This is a small learning project to look at what wonders reactjs can lead me to.
