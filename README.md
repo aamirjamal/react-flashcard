@@ -1,1 +1,2 @@
 This is a small learning project to look at what wonders reactjs can lead me to.
+Apologies for all content in a single html page. Should have separated the HTML, CSS and JS in separate files, but just wanted to finish this quick small project.

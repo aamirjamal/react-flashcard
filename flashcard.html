@@ -21,11 +21,24 @@
         th {
             padding: 10px
         }
+
+        table {
+            margin: 0 auto
+        }
+
+        .card {
+            background-color: darkgrey;
+            height: 100px;
+            width: 250px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 40px;
+        }
     </style>
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app" style="text-align: center"></div>
     <script type="text/babel">
 
     class CardEditor extends React.Component {
@@ -91,39 +104,52 @@
     }
 
     class CardViewer extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            isFront : false,
-            card: this.props.cards[1]
+        constructor(props){
+            super(props)
+            this.state = {
+                isFront : false,
+                index: 0
+            }
         }
-    }
 
-    showCardSide = () => {
-        if(this.state.isFront)
-        return this.state.card.front
-        else
-        return this.state.card.back
-    }
+        showCardSide = () => {
+            if(this.state.isFront)
+            return this.props.cards[this.state.index].front
+            else
+            return this.props.cards[this.state.index].back
+        }
 
-    flipCard = () => {
-        this.setState(state => ({
-            isFront: !state.isFront
+        flipCard = () => {
+            this.setState(state => ({
+                isFront: !state.isFront
+                }))
+        }
+
+        nextCard = () => {
+            const totalCards = this.props.cards.length
+            this.setState(state => ({
+                index: (state.index + 1) % totalCards
             }))
-    }
+        }
 
-    // switchMode = () => {
-    //         this.setState(state => ({
-    //             editor: !state.editor
-    //         }))
-    //     }
+        prevCard = () => {
+            const totalCards = this.props.cards.length
+            const newIndex = this.state.index - 1  
+            this.setState(state => ({
+                index: newIndex < 0 ? totalCards - 1 : newIndex
+            }))
+        }
 
         render() {
             return(
                 <div>
-                    <h2>CardViewer</h2>
-                    <p>{this.showCardSide()}</p>
+                    <h2>Card Viewer</h2>
+                    <div className="card"><p>{this.showCardSide()}</p></div>
+                    <br/>
                     <button onClick={this.flipCard}>Flip card</button>
+                    <button onClick={this.nextCard}>Next Card</button>
+                    <button onClick={this.prevCard}>Previous Card</button>
+                    <button onClick={this.shuffleCards}>Shuffle Card</button>
                     <hr/>
                     <button onClick={this.props.switchMode}>Go to editor</button>
                 </div>
@@ -136,7 +162,9 @@
             super(props);
             this.state = {
                 editor: true,
-                cards: [{"front":"yolo","back":"mofo"},{"front":"haha","back":"hihi"},{"front":"sasa","back":"assaas"}]
+                cards: [{"front":"First front","back":"First back"},
+                        {"front":"Second front","back":"Second back"},
+                        {"front":"Third front","back":"Third back"}]
             }
         }
 
